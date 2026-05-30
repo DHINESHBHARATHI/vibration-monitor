@@ -1,47 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Vehicle Monitoring System</title>
+  <title>Vehicle Monitoring System</title>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <style>
-        body{
-            font-family: Arial;
-            text-align:center;
-            background:#f2f2f2;
-        }
-        .card{
-            background:white;
-            width:500px;
-            margin:auto;
-            margin-top:30px;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px gray;
-        }
-    </style>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f2f2f2;
+      text-align:center;
+    }
+
+    .card{
+      background:white;
+      width:500px;
+      margin:auto;
+      margin-top:30px;
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0px 0px 10px gray;
+    }
+
+    h1{
+      color:#333;
+    }
+
+    #status{
+      font-size:24px;
+      font-weight:bold;
+      color:red;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="card">
 
-<h1>🚗 Vehicle Monitoring System</h1>
+  <h1>🚗 Vehicle Monitoring System</h1>
 
-<h2>Status</h2>
-<p id="status">Loading...</p>
+  <h2>Status</h2>
+  <p id="status">Loading...</p>
 
-<h2>Latitude</h2>
-<p id="lat">Loading...</p>
+  <h2>Latitude</h2>
+  <p id="latitude">Loading...</p>
 
-<h2>Longitude</h2>
-<p id="lon">Loading...</p>
+  <h2>Longitude</h2>
+  <p id="longitude">Loading...</p>
 
-<a id="mapLink" target="_blank">
-📍 Open Google Maps
-</a>
+  <br>
+
+  <a id="mapLink" href="#" target="_blank">
+    📍 Open Location in Google Maps
+  </a>
 
 </div>
 
@@ -55,15 +68,16 @@ firebase.initializeApp(firebaseConfig);
 
 firebase.database().ref("/").on("value", function(snapshot){
 
-    var data = snapshot.val();
+  var data = snapshot.val();
 
-    document.getElementById("status").innerHTML = data.status;
-    document.getElementById("lat").innerHTML = data.latitude;
-    document.getElementById("lon").innerHTML = data.longitude;
+  document.getElementById("status").innerHTML = data.status;
+  document.getElementById("latitude").innerHTML = data.latitude;
+  document.getElementById("longitude").innerHTML = data.longitude;
 
-    document.getElementById("mapLink").href =
-      "https://maps.google.com/?q=" +
-      data.latitude + "," + data.longitude;
+  document.getElementById("mapLink").href =
+    "https://maps.google.com/?q=" +
+    data.latitude + "," + data.longitude;
+
 });
 
 </script>

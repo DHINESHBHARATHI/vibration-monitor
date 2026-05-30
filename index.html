@@ -8,7 +8,7 @@
 
 <style>
 body{
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   text-align:center;
   background:#f2f2f2;
 }
@@ -20,7 +20,13 @@ body{
   margin-top:50px;
   padding:20px;
   border-radius:10px;
-  box-shadow:0px 0px 10px gray;
+  box-shadow:0 0 10px gray;
+}
+
+#status{
+  font-size:28px;
+  font-weight:bold;
+  color:red;
 }
 </style>
 </head>
@@ -32,15 +38,15 @@ body{
 <h1>🚗 Vehicle Monitoring System</h1>
 
 <h2>Status</h2>
-<h3 id="status">Loading...</h3>
+<p id="status">Loading...</p>
 
 <h2>Latitude</h2>
-<p id="latitude">Loading...</p>
+<p id="latitude">Hidden</p>
 
 <h2>Longitude</h2>
-<p id="longitude">Loading...</p>
+<p id="longitude">Hidden</p>
 
-<a id="mapLink" href="#" target="_blank">
+<a id="mapLink" href="#" target="_blank" style="display:none;">
 📍 Open Location in Google Maps
 </a>
 
@@ -49,7 +55,7 @@ body{
 <script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSy...",
+  apiKey: "AIzaSyC12kI1qMhep311hBKGZMPL0R62d9F0qyE",
   authDomain: "vehiclemonitoring-79d39.firebaseapp.com",
   databaseURL: "https://vehiclemonitoring-79d39-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "vehiclemonitoring-79d39",
@@ -64,9 +70,13 @@ firebase.database().ref("/").on("value", function(snapshot){
 
   var data = snapshot.val();
 
+  console.log("Firebase Data:", data);
+
+  if(!data) return;
+
   document.getElementById("status").innerHTML = data.status;
 
-  if(data.status == "HIGH VIBRATION DETECTED")
+  if(data.status === "HIGH VIBRATION DETECTED")
   {
     document.getElementById("latitude").innerHTML = data.latitude;
     document.getElementById("longitude").innerHTML = data.longitude;
@@ -83,6 +93,7 @@ firebase.database().ref("/").on("value", function(snapshot){
     document.getElementById("longitude").innerHTML = "Hidden";
     document.getElementById("mapLink").style.display = "none";
   }
+
 });
 
 </script>

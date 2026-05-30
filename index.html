@@ -2,20 +2,71 @@
 <html>
 <head>
     <title>Vehicle Monitoring System</title>
-    <meta http-equiv="refresh" content="5">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        body{
+            font-family: Arial;
+            text-align:center;
+            background:#f2f2f2;
+        }
+        .card{
+            background:white;
+            width:500px;
+            margin:auto;
+            margin-top:30px;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Vehicle Monitoring System</h1>
 
-    <h2>Status</h2>
-    <p>Waiting for vibration data...</p>
+<div class="card">
 
-    <h2>Location</h2>
-    <p>Latitude: 13.0827</p>
-    <p>Longitude: 80.2707</p>
+<h1>🚗 Vehicle Monitoring System</h1>
 
-    <a href="https://maps.google.com/?q=13.0827,80.2707" target="_blank">
-        View Location on Google Maps
-    </a>
+<h2>Status</h2>
+<p id="status">Loading...</p>
+
+<h2>Latitude</h2>
+<p id="lat">Loading...</p>
+
+<h2>Longitude</h2>
+<p id="lon">Loading...</p>
+
+<a id="mapLink" target="_blank">
+📍 Open Google Maps
+</a>
+
+</div>
+
+<script>
+
+var firebaseConfig = {
+  databaseURL: "https://vehiclemonitoring-79d39-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+firebase.database().ref("/").on("value", function(snapshot){
+
+    var data = snapshot.val();
+
+    document.getElementById("status").innerHTML = data.status;
+    document.getElementById("lat").innerHTML = data.latitude;
+    document.getElementById("lon").innerHTML = data.longitude;
+
+    document.getElementById("mapLink").href =
+      "https://maps.google.com/?q=" +
+      data.latitude + "," + data.longitude;
+});
+
+</script>
+
 </body>
 </html>
